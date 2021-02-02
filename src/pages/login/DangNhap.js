@@ -1,9 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class DangNhap extends React.Component {
   constructor(props) {
     super(props);
+    let loggedIn = false
     this.state = {
       email: "",
       password: "",
@@ -11,7 +13,10 @@ class DangNhap extends React.Component {
       emailValid: false,
       passwordValid: false,
       formValid: false,
-    };
+      loggedIn,
+    }
+    this.handleStorage = this.handleStorage.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   handleUserInput = (e) => {
@@ -21,6 +26,26 @@ class DangNhap extends React.Component {
       this.validateField(name, value);
     });
   };
+
+  handleStorage =(e) => {
+    sessionStorage.setItem( this.state.email,this.state.password);
+
+    // console.log( JSON.parse( sessionStorage.getItem(this.state.email)));
+  }
+
+  onSubmit(e){
+    e.preventDefault();
+    const { email, password } = this.state
+    // login magic
+    if( email == this.state.email ){
+      localStorage.setItem("token","qwertyuioijhgfd")
+      
+          this.setState({
+            loggedIn: true
+          })
+      }
+    }
+      
 
   validateField(fieldName, value) {
     let fieldValidationErrors = this.state.formErrors;
@@ -59,22 +84,17 @@ class DangNhap extends React.Component {
 
   }
 
-  errorClass(error) {
-    return error.length === 0 ? "" : "has-error";
-  }
   render() {
+    if(this.state.loggedIn){
+        return <Redirect to="/admin" />
+    }
     return (
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-6 offset-md-3 mybg" ref="">
-            <form
-              onSubmit={(e) => this.onSubmit(e)}
-              ref={(c) => {
-                this.form = c;
-              }}
-            >
+            <form onSubmit={this.onSubmit}>
               <div className="row">
-                <div className="col-md-12 text-center mytitle">Login</div>
+                <div className="col-md-12 text-center mytitle"><FontAwesomeIcon icon="user-tie" />  Login</div>
               </div>
 
               <div className="form-group row">
@@ -115,26 +135,28 @@ class DangNhap extends React.Component {
 
               <div className="form-group row">
                 <div className="col-sm-12 text-center">
-                  <a href="!#">Password Forget ?</a> &nbsp;&nbsp; | &nbsp;&nbsp;
+                 <input type="radio" value="option1" onClick={this.handleStorage} />   Remember me  &nbsp;&nbsp; | &nbsp;&nbsp; 
                   <a href="!#">Sign Up !</a>
                 </div>
               </div>
 
               <div className="form-group row">
                 <div className="col-sm-12 text-center">
-                  <Link to="/admin">
+               
                     <button
                       type="submit"
                       className="btn btn-primary"
                       disabled={!this.state.formValid}
+                      //onSubmit={this.onSubmit}
                     >
-                      Login
+                      <FontAwesomeIcon icon="sign-in-alt" />   Login
                     </button>
                     &nbsp;&nbsp;
-                  </Link>
+                 
                   <Link to="/">
+            
                     <button type="button" className="btn btn-primary">
-                      Exit
+                    <FontAwesomeIcon icon="sign-out-alt" />  Exit
                     </button>
                   </Link>
                 </div>

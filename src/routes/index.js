@@ -16,7 +16,7 @@ import EditProduct from "../pages/admin/product/EditProduct";
 import ListAccount from '../pages/admin/accounts/ListAccount';
 import AddAccount from '../pages/admin/accounts/AddAccount';
 import EditAccount from '../pages/admin/accounts/EditAccount';
-
+import auth from "js-cookie";
 
 const Routes = () => {
   return (
