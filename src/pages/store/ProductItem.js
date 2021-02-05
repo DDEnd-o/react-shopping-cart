@@ -18,8 +18,10 @@ const ProductItem = ({ product }) => {
         src={product.photo + "?v=" + product.id}
         alt=""
       />
-      <p>{product.name}</p> <h6>{product.category}</h6>
+      <p>{product.name}</p>
+      <h6>{product.category}</h6>
       <h3 className="text-left">{formatNumber(product.price)}</h3>
+      
       <div className="text-right">
         <Link to={`/detail/${product.id}`} className="btn btn-link btn-sm mr-2">
           Details
